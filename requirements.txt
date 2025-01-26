@@ -1,8 +1,6 @@
-crewai
-crewai[tools]
+crewai[tools]>=0.95.0,<1.0.0
 PyMuPDF>=1.18.19
 python-docx>=0.8.11
 fpdf>=1.7.2
 streamlit>=1.41.1
 Markdown>=3.7
-sqlite3 >= 3.35.0
