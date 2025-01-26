@@ -1,0 +1,24 @@
+analyze_nda_task:
+  description: >
+    Analyze the NDA document {nda_document} according to the provided instructions {instructions}. 
+    Highlight any issues or clauses of concern and suggest improvements if necessary.
+  expected_output: >
+    A detailed analysis of the NDA, including:
+    - Clauses that comply with instructions.
+    - Clauses that need changes.
+    - General comments or concerns.
+  agent: legal_reviewer
+
+recommendation_task:
+  description: >
+    Based on the analysis, provide a final recommendation on the NDA.
+    Recommendation must be one of:
+    - Approve
+    - Deny
+    - Approve with Cautions
+    The recommendation must include reasons or change suggestions.
+  expected_output: >
+    A final recommendation with:
+    - Recommendation decision (Approve, Deny, Approve with Cautions).
+    - Key reasons or changes needed.
+  agent: recommendation_maker
