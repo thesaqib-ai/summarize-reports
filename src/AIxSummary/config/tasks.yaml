@@ -1,0 +1,21 @@
+summarize_document_task:
+  description: >
+    Summarize the given document {document} by extracting key points while ensuring clarity and conciseness.
+    Focus on the main ideas, important details, and overall structure of the document.
+  expected_output: >
+    A concise and well-structured summary including:
+    - The main themes or topics covered.
+    - Key details that are essential to understanding the document.
+    - Concise and an informative overview.
+  agent: document_summarizer
+
+review_summary_task:
+  description: >
+    Review the summary provided by the Document Summarizer to ensure it accurately reflects the document’s content.
+    Improve the summary if necessary by ensuring clarity and completeness.
+  expected_output: >
+    A refined summary that:
+    - Maintains the integrity of the original document’s key ideas.
+    - Concise, well-structured and easy to understand.
+    - Ensures no critical information is omitted or misrepresented.
+  agent: summary_reviewer

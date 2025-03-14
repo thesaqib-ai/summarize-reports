@@ -1,4 +1,4 @@
-#!D:\AIxNDA\aixnda\venv\Scripts\python.exe
+#!D:\AIxSummary\AIxSummary\venv\Scripts\python.exe
 # encoding: utf-8
 """
 prov-compare -- Compare two PROV-JSON, PROV-XML, or RDF (PROV-O) files for equivalence

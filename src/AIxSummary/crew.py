@@ -2,42 +2,42 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 
 @CrewBase
-class Aixnda():
-    """Aixnda crew"""
+class AIxSummary():
+    """AIxSummary crew"""
 
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
  
     @agent
-    def legal_reviewer(self) -> Agent:
+    def document_summarizer(self) -> Agent:
         return Agent(
-            config=self.agents_config['legal_reviewer'],
+            config=self.agents_config['document_summarizer'],
             verbose=True,
         )
 
     @agent
-    def recommendation_maker(self) -> Agent:
+    def summary_reviewer(self) -> Agent:
         return Agent(
-            config=self.agents_config['recommendation_maker'],
+            config=self.agents_config['summary_reviewer'],
             verbose=True
         )
     
     @task
-    def analyze_nda_task(self) -> Task:
+    def summarize_document_task(self) -> Task:
         return Task(
-            config=self.tasks_config['analyze_nda_task'],
+            config=self.tasks_config['summarize_document_task'],
         )
 
     @task
-    def recommendation_task(self) -> Task:
+    def review_summary_task(self) -> Task:
         return Task(
-            config=self.tasks_config['recommendation_task'],
+            config=self.tasks_config['review_summary_task'],
             output_file='report.md'
         )
 
     @crew
     def crew(self) -> Crew:
-        """Creates the Aixnda crew"""
+        """Creates the AIxSummary crew"""
 
         return Crew(
             agents=self.agents, 

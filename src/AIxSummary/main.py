@@ -1,11 +1,15 @@
 import streamlit as st
 from docx import Document
-import fitz  # PyMuPDF for PDF processing
+import fitz
 import os
 import sys
+from dotenv import load_dotenv
+
+load_dotenv()
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
-from aixnda.crew import Aixnda
+from AIxSummary.crew import AIxSummary
+
 
 
 def extract_text_from_pdf(pdf_file):
@@ -35,10 +39,9 @@ def process_file(file):
 
 
 def main():
-    st.title("CrewAI NDA Document Analyzer")
+    st.title("Summarize your documents with CrewAI")
     st.markdown("""
-    Upload a `.docx` or `.pdf` file, process it using CrewAI, and download the output 
-    as a PDF file.
+    Upload a `.docx` or `.pdf` file, summarize it using CrewAI and ask questions.
     """)
 
     # File upload
@@ -49,25 +52,7 @@ def main():
 
     # Default instructions
     default_instructions = (
-        "When reviewing an NDA, ensure the following elements are clearly defined:\n"
-        "1. Confidential Information: Clearly defines what constitutes confidential information.\n"
-        "2. Obligations for Protection: Outlines the obligations for protection and permissible use.\n"
-        "3. Exclusions: Specifies exclusions for public, independently developed, or received information without restriction.\n"
-        "4. Duration of Confidentiality: States the duration of confidentiality.\n"
-        "5. Post-Agreement Procedures: Details procedures for returning or destroying information after the agreement ends.\n"
-        "6. Permissible Disclosures: Outlines disclosures under legal compulsion with provisions for notification and minimizing disclosure.\n"
-        "7. Enforceable Remedies: Includes enforceable remedies for breaches of confidentiality.\n"
-        "8. Governing Law and Dispute Resolution: Specifies the governing law and dispute resolution mechanisms.\n"
-        "9. Binding on All Parties: Ensures that all related parties, including affiliates and successors, are bound by the terms.\n"
-        "10. Non-Solicit or Non-Compete Clauses: Check for any applicable non-solicit or non-compete clauses.\n\n"
-        "These steps help protect the integrity of confidential information and safeguard the interests of all parties involved."
-    )
-
-    # Text area for modifying instructions
-    instructions = st.text_area(
-        "Edit the instructions for CrewAI (or keep the defaults below):",
-        value=default_instructions,
-        height=300
+       "You are an expert document summarizer. Your task is to read the given document and provide a concise and informative summary while retaining the key details."
     )
 
     # Run button
@@ -79,11 +64,11 @@ def main():
                 if extracted_text:
                     # Save the extracted text and instructions as input for CrewAI
                     inputs = {
-                        "nda_document": extracted_text,
-                        "instructions": instructions
+                        "document": extracted_text,
+                        "instructions": default_instructions
                     }
                     # Run CrewAI
-                    Aixnda().crew().kickoff(inputs=inputs)
+                    AIxSummary().crew().kickoff(inputs=inputs)
 
                     # Check for the output file
                     report_path = "report.md"
@@ -93,12 +78,12 @@ def main():
                             markdown_content = file.read()
 
                         # Display the Markdown content
-                        st.markdown("### Generated Report")
+                        st.markdown("Summary")
                         st.markdown(markdown_content, unsafe_allow_html=True)
 
 
                     else:
-                        st.error("The output file (report.md) was not found. Please ensure CrewAI generated the output.")
+                        st.error("Please ensure CrewAI generated the output.")
         else:
             st.error("Please upload a file before running.")
 
@@ -115,7 +100,7 @@ def train():
         "topic": "AI LLMs"
     }
     try:
-        Aixnda().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
+        AIxSummary().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while training the crew: {e}")
@@ -125,7 +110,7 @@ def replay():
     Replay the crew execution from a specific task.
     """
     try:
-        Aixnda().crew().replay(task_id=sys.argv[1])
+        AIxSummary().crew().replay(task_id=sys.argv[1])
 
     except Exception as e:
         raise Exception(f"An error occurred while replaying the crew: {e}")
@@ -138,7 +123,7 @@ def test():
         "topic": "AI LLMs"
     }
     try:
-        Aixnda().crew().test(n_iterations=int(sys.argv[1]), openai_model_name=sys.argv[2], inputs=inputs)
+        AIxSummary().crew().test(n_iterations=int(sys.argv[1]), openai_model_name=sys.argv[2], inputs=inputs)
 
     except Exception as e:
         raise Exception(f"An error occurred while replaying the crew: {e}")

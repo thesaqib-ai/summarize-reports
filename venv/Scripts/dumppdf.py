@@ -1,4 +1,4 @@
-#!D:\AIxNDA\aixnda\venv\Scripts\python.exe
+#!D:\AIxSummary\AIxSummary\venv\Scripts\python.exe
 """Extract pdf structure in XML format"""
 import logging
 import os.path
