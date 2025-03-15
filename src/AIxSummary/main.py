@@ -55,6 +55,13 @@ def main():
        "You are an expert document summarizer. Your task is to read the given document and provide a concise and informative summary while retaining the key details."
     )
 
+    # Text area for modifying instructions
+    instructions = st.text_area(
+        "Edit the instructions for CrewAI (or keep the defaults below):",
+        value=default_instructions,
+        height=300
+    )
+
     # Run button
     if st.button("Run"):
         if uploaded_file:
@@ -65,7 +72,7 @@ def main():
                     # Save the extracted text and instructions as input for CrewAI
                     inputs = {
                         "document": extracted_text,
-                        "instructions": default_instructions
+                        "instructions": instructions
                     }
                     # Run CrewAI
                     AIxSummary().crew().kickoff(inputs=inputs)
@@ -80,8 +87,6 @@ def main():
                         # Display the Markdown content
                         st.markdown("Summary")
                         st.markdown(markdown_content, unsafe_allow_html=True)
-
-
                     else:
                         st.error("Please ensure CrewAI generated the output.")
         else:
